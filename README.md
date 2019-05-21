@@ -1,6 +1,9 @@
 # Vue CRUD app
 Just another learning-vue-project.
 I will be making an app that dynamically changes and shows a table of employees, with CRUD-functionality.
+<ul>
+    <li>Credit to <a target="_blank" href="https://www.taniarascia.com/getting-started-with-vue/">Tania Rascia</a></li>
+</ul>
 
 ## Project setup
 ```
