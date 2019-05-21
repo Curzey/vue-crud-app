@@ -5,12 +5,14 @@
         <tr>
           <th>Employee name</th>
           <th>Employee email</th>
+          <th>Id</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="employee in employees" :key="employee.id">
           <td>{{employee.name}}</td>
           <td>{{employee.email}}</td>
+          <td>{{employee.id}}</td>
         </tr>
       </tbody>
     </table>
