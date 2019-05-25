@@ -17,50 +17,72 @@ export default {
     EmployeeTable,
     EmployeeForm
   },
+
   data() {
     return {
-      employees: [
-        {
-          id: 1,
-          name: "Richard Hendricks",
-          email: "richard@piedpiper.com"
-        },
-        {
-          id: 2,
-          name: "Bertram Gilfoyle",
-          email: "gilfoyle@piedpiper.com"
-        },
-        {
-          id: 3,
-          name: "Dinesh Chugtai",
-          email: "dinesh@piedpiper.com"
-        }
-      ]
-    };
+      employees: [],
+    }
   },
-  methods: {
-    addEmployee(employee) {
-      // Get unique ID for each employee
-      // Gets last employee id and adds 1
-      const lastId =
-        this.employees.length > 0
-          ? this.employees[this.employees.length - 1].id
-          : 0;
-      const id = lastId + 1;
-      const newEmployee = { ...employee, id };
 
-      // Add newly created employee object to employees array.
-      this.employees = [...this.employees, newEmployee];
+  mounted() {
+    this.getEmployees()
+  },
+
+  methods: {
+    // Get employees from JSON Placeholder REST API
+    async getEmployees() {
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        const data = await response.json();
+        this.employees = data;
+      } catch (error) {
+        console.error(error);
+      }
     },
-    deleteEmployee(id) {
-      this.employees = this.employees.filter(
-        employee => employee.id !== id
-      )
+
+    // Add employee through POST to the REST API
+    async addEmployee(employee) {
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users', {
+          method: 'POST',
+          body: JSON.stringify(employee),
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        });
+        const data = await response.json();
+        // Merge modified employee array with the old
+        this.employees = [...this.employees, data];
+      } catch (error) {
+        console.error(error)
+      }
     },
-    editEmployee(id, updatedEmployee) {
-      this.employees = this.employees.map(employee =>
-        employee.id === id ? updatedEmployee : employee
-      )
+
+    // Edit employee through PUT to the REST API
+    async editEmployee(id, updatedEmployee) {
+      try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify(updatedEmployee),
+          headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        })
+        const data = await response.json()
+        // Create new employee array with the updated employee and the old employees
+        this.employees = this.employees.map(employee => (employee.id === id ? data : employee))
+      } catch (error) {
+        console.error(error)
+      }
+    },
+
+    // Delete employees through DELETE to the REST API
+    async deleteEmployee(id) {
+      try {
+        await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+          method: "DELETE"
+        });
+        // Filter out the respective employee
+        this.employees = this.employees.filter(employee => employee.id !== id);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 };
