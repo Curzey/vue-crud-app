@@ -5,6 +5,9 @@ I will be making an app that dynamically changes and shows a table of employees,
     <li>Credit to <a target="_blank" href="https://www.taniarascia.com/getting-started-with-vue/">Tania Rascia</a></li>
 </ul>
 
+# GitHub pages link
+<a target="_blank" href="https://curzey.github.io/vue-crud-app/"> Vue CRUD App </a>
+
 ## Project setup
 ```
 npm install
